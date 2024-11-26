@@ -1,28 +1,49 @@
 package com.example.TrabalhoJava.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import org.aspectj.weaver.ast.Not;
+
+import java.util.List;
 
 @Entity
 @Table(name = "disciplinas")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Disciplina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column
     private String nome;
-
-    @Column(unique = true)
     private String codigo;
 
     @ManyToOne
-    @JoinColumn(name = "curso_id", nullable = false)
+    @JoinColumn(name = "curso_id")
     private Curso curso;
 
     @ManyToOne
-    @JoinColumn(name = "professor_id", nullable = false)
+    @JoinColumn(name = "professor_id")
     private Professor professor;
+
+//    @OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL)
+//    private List<Nota> notas;
+//
+//
+//
+//
+//
+//
+//
+//
+//    public List<Nota> getNotas() {
+//        return notas;
+//    }
+//
+//    public void setNotas(List<Nota> notas) {
+//        this.notas = notas;
+//    }
 
     public Integer getId() {
         return id;

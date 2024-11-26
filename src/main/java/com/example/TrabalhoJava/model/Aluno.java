@@ -1,30 +1,34 @@
 package com.example.TrabalhoJava.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
 @Table(name = "alunos")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Aluno {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column
     private String nome;
-
-    @Column(unique = true)
     private String email;
-
-    @Column(unique = true)
+    private LocalDate data_nascimento;
     private String matricula;
 
-    @Column
-    private LocalDate data_nascimento;
+    @ManyToMany(mappedBy = "alunos")
+    @JsonIgnoreProperties("alunos")
+    private List<Turma> turmas;
+
+    @OneToMany(mappedBy = "aluno")
+    private List<Matricula> matriculas;
 
     public Integer getId() {
         return id;
@@ -50,19 +54,27 @@ public class Aluno {
         this.email = email;
     }
 
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
     public LocalDate getData_nascimento() {
         return data_nascimento;
     }
 
     public void setData_nascimento(LocalDate data_nascimento) {
         this.data_nascimento = data_nascimento;
+    }
+
+    public List<Turma> getTurmas() {
+        return turmas;
+    }
+
+    public void setTurmas(List<Turma> turmas) {
+        this.turmas = turmas;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 }

@@ -44,7 +44,6 @@ public class AlunoController {
             Aluno aluno = new Aluno();
             aluno.setNome(dto.nome());
             aluno.setEmail(dto.email());
-            aluno.setMatricula(dto.matricula());
             aluno.setData_nascimento(dto.data_nascimento());
             
             return this.repository.save(aluno);
@@ -58,7 +57,6 @@ public class AlunoController {
 
         aluno.setNome(dto.nome());
         aluno.setEmail(dto.email());
-        aluno.setMatricula(dto.matricula());
         aluno.setData_nascimento(dto.data_nascimento());
 
         return this.repository.save(aluno);

@@ -1,27 +1,29 @@
 package com.example.TrabalhoJava.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table (name = "professores")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Professor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column
     private String nome;
-
-    @Column(unique = true)
     private String email;
-
-    @Column(unique = true)
     private String telefone;
-
-    @Column
     private String especialidade;
+
+    @OneToMany(mappedBy = "professor")
+    @JsonIgnoreProperties("professor")
+    private List<Disciplina> disciplinas;
 
     public Integer getId() {
         return id;
