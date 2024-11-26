@@ -65,10 +65,11 @@ public class CursoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Curso> delete(@PathVariable Integer id){
         Curso curso = this.repository.findById(id)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,notFoundMessageId(id)));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,notFoundMessageId(id)));
 
         this.repository.delete(curso);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
+

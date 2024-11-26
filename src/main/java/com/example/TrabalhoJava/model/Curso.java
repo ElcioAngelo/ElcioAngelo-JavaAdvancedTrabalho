@@ -1,15 +1,9 @@
 package com.example.TrabalhoJava.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "cursos")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Curso {
 
     @Id
@@ -18,30 +12,6 @@ public class Curso {
     private String nome;
     private String codigo;
     private Integer carga_horaria;
-
-    @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("curso")
-    private List<Disciplina> disciplinas;
-
-    @OneToMany(mappedBy = "curso", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("curso")
-    private List<Turma> turmas;
-
-    public List<Disciplina> getDisciplinas() {
-        return disciplinas;
-    }
-
-    public void setDisciplinas(List<Disciplina> disciplinas) {
-        this.disciplinas = disciplinas;
-    }
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurmas(List<Turma> turmas) {
-        this.turmas = turmas;
-    }
 
     public Integer getId() {
         return id;
