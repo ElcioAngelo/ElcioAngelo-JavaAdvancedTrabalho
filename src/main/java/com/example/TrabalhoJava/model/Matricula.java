@@ -14,24 +14,16 @@ public class Matricula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "aluno_id")
     private Aluno aluno;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "turma_id")
     private Turma turma;
 
-//    @OneToMany(mappedBy = "matricula")
-//    private List<Nota> notas;
-//
-//    public List<Nota> getNotas() {
-//        return notas;
-//    }
-//
-//    public void setNotas(List<Nota> notas) {
-//        this.notas = notas;
-//    }
+    @OneToMany(mappedBy = "matricula", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Nota> notas;
 
     public Integer getId() {
         return id;

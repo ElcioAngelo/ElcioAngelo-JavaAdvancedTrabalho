@@ -2,6 +2,7 @@ package com.example.TrabalhoJava.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import org.aspectj.weaver.ast.Not;
@@ -16,34 +17,22 @@ public class Disciplina {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @JsonProperty("disciplina_nome")
     private String nome;
+
     private String codigo;
 
     @ManyToOne
     @JoinColumn(name = "curso_id")
     private Curso curso;
 
+    @OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Nota> notas;
+
     @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
-
-//    @OneToMany(mappedBy = "disciplina", cascade = CascadeType.ALL)
-//    private List<Nota> notas;
-//
-//
-//
-//
-//
-//
-//
-//
-//    public List<Nota> getNotas() {
-//        return notas;
-//    }
-//
-//    public void setNotas(List<Nota> notas) {
-//        this.notas = notas;
-//    }
 
     public Integer getId() {
         return id;

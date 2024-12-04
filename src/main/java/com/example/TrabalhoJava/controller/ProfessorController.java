@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
@@ -17,60 +18,55 @@ import java.util.Optional;
 @RequestMapping("/api/professores")
 public class ProfessorController {
 
-    final String notFoundMessage (Integer id) {
-        return "Nenhum professor com o id " + id + " Foi encontrado..";
-    }
 
     @Autowired
     public ProfessorRepository repository;
 
     @GetMapping
-    public List<Professor> findAll() {
+    public ResponseEntity<List<Professor>> findAll() {
         //Caso não encontre nenhum professor, jogue uma nova excessão.
         if(this.repository.findAll().isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Não foi encontrado nenhum professor..");
         }
-        return this.repository.findAll();
+        return ResponseEntity.ok(this.repository.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Professor> findById(@PathVariable Integer id){
-        Optional<Professor> professor = this.repository.findById(id);
-
-        return professor.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,notFoundMessage(id)));
-
+        Professor professor = this.repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Não foi encontrado nenhum professor com o id " + id));
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping
-    public Professor save(@RequestBody ProfessorRequestDTO dto){
+    public ResponseEntity<Professor> save(@RequestBody ProfessorRequestDTO dto){
         Professor professor = new Professor();
         professor.setNome(dto.nome());
         professor.setEmail(dto.email());
         professor.setTelefone(dto.telefone());
         professor.setEspecialidade(dto.especialidade());
 
-        return this.repository.save(professor);
+        return ResponseEntity.ok(this.repository.save(professor));
     }
 
     @PutMapping("/{id}")
-    public Professor findById(@PathVariable Integer id,
+    public ResponseEntity<Professor> findById(@PathVariable Integer id,
                                               @RequestBody ProfessorRequestDTO dto){
        Professor professor =  this.repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,notFoundMessage(id)));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Não foi encontrado Nenhum professor.."));
 
         professor.setNome(dto.nome());
         professor.setEmail(dto.email());
         professor.setTelefone(dto.telefone());
         professor.setEspecialidade(dto.especialidade());
 
-        return this.repository.save(professor);
+        return ResponseEntity.ok(this.repository.save(professor));
     }
 
     @DeleteMapping("/{id}")
-    void delete (@PathVariable Integer id) {
+    public ResponseEntity<String> delete (@PathVariable Integer id) {
         Professor professor = this.repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,notFoundMessage(id)));
-        this.repository.delete(professor);
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Nenhum professor foi encontrado.."));
+        return ResponseEntity.ok("O professor " + professor.getNome() + "Foi deletado com sucesso..");
     }
 }

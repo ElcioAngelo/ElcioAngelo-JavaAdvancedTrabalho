@@ -12,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "alunos")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Aluno {
 
     @Id
@@ -22,10 +21,6 @@ public class Aluno {
     private String email;
     private LocalDate data_nascimento;
     private String matricula;
-
-    @ManyToMany(mappedBy = "alunos")
-    @JsonIgnoreProperties("alunos")
-    private List<Turma> turmas;
 
     @OneToMany(mappedBy = "aluno")
     private List<Matricula> matriculas;
@@ -60,14 +55,6 @@ public class Aluno {
 
     public void setData_nascimento(LocalDate data_nascimento) {
         this.data_nascimento = data_nascimento;
-    }
-
-    public List<Turma> getTurmas() {
-        return turmas;
-    }
-
-    public void setTurmas(List<Turma> turmas) {
-        this.turmas = turmas;
     }
 
     public String getMatricula() {

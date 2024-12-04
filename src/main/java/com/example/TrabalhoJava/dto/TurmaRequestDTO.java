@@ -5,5 +5,5 @@ import com.example.TrabalhoJava.model.Curso;
 
 import java.util.Set;
 
-public record TurmaRequestDTO(Integer id, Integer ano, Integer semestre, com.example.TrabalhoJava.model.Curso cursos, Set<Aluno> alunos)  {
+public record TurmaRequestDTO(Integer id, Integer ano, Integer semestre, Integer cursos, Set<Integer> alunos)  {
 }

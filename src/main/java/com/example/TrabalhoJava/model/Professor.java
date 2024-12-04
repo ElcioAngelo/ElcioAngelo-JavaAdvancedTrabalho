@@ -21,10 +21,6 @@ public class Professor {
     private String telefone;
     private String especialidade;
 
-    @OneToMany(mappedBy = "professor")
-    @JsonIgnoreProperties("professor")
-    private List<Disciplina> disciplinas;
-
     public Integer getId() {
         return id;
     }

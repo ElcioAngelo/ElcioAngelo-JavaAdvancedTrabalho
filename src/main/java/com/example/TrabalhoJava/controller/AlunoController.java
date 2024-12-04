@@ -21,13 +21,13 @@ public class AlunoController {
 
     //Rota para encontrar todos os alunos
     @GetMapping
-    public List<Aluno> findAll() {
+    public ResponseEntity<List<Aluno>> findAll() {
         //Caso não encontre nenhum aluno, jogue uma nova Excessão.
         if(this.repository.findAll().isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Não foi encontrado nenhum aluno, cadastre alguns");
         }
-        return this.repository.findAll();
+        return ResponseEntity.ok(this.repository.findAll());
     }
 
     //Rota para encontrar os alunos pelo ID.
@@ -40,17 +40,18 @@ public class AlunoController {
     }
 
     @PostMapping
-    public Aluno save(@RequestBody AlunoRequestDTO dto) {
+    public ResponseEntity<Aluno> save(@RequestBody AlunoRequestDTO dto) {
             Aluno aluno = new Aluno();
             aluno.setNome(dto.nome());
             aluno.setEmail(dto.email());
             aluno.setData_nascimento(dto.data_nascimento());
             
-            return this.repository.save(aluno);
+            return ResponseEntity.ok(this.repository.save(aluno));
+
     }
 
     @PutMapping("/{id}")
-    public Aluno update(@PathVariable Integer id,
+    public ResponseEntity<Aluno> update(@PathVariable Integer id,
                         @RequestBody AlunoRequestDTO dto){
         Aluno aluno = this.repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado.."));
@@ -59,16 +60,16 @@ public class AlunoController {
         aluno.setEmail(dto.email());
         aluno.setData_nascimento(dto.data_nascimento());
 
-        return this.repository.save(aluno);
+        return ResponseEntity.ok(this.repository.save(aluno));
 
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id){
+    public ResponseEntity<String> delete(@PathVariable Integer id){
         Aluno aluno = this.repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Aluno não encontrado..."));
-
         this.repository.delete(aluno);
+        return ResponseEntity.ok().body("O ALuno " + aluno.getNome() + " Foi deletado com sucesso");
     }
 
 }

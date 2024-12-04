@@ -1,11 +1,8 @@
 package com.example.TrabalhoJava.model;
 
-import com.example.TrabalhoJava.repository.TurmaRepository;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Set;
@@ -24,22 +21,6 @@ public class Turma {
    @ManyToOne
    @JoinColumn(name = "cursos_id")
    private Curso curso;
-
-   @ManyToMany
-   @JoinTable(
-           name = "matriculas", // Nome da tabela intermediária
-           joinColumns = @JoinColumn(name = "turma_id"), // A coluna que referencia a turma
-           inverseJoinColumns = @JoinColumn(name = "aluno_id") // A coluna que referencia o aluno
-   )
-   private Set<Aluno> alunos;
-
-    public Set<Aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(Set<Aluno> alunos) {
-        this.alunos = alunos;
-    }
 
     public Integer getId() {
         return id;
