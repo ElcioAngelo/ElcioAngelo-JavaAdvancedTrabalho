@@ -73,14 +73,6 @@ public class TurmaController {
     public ResponseEntity<String> delete(@PathVariable Integer id){
         Turma turma = this.turmaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Turma Não encontrada..."));
-
-        List<Matricula> matriculas = matriculaRepository.findTurmaById(id);
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Não foi encontrado nenhuma turma"));
-        for (Matricula matricula : matriculas) {
-            matricula.setTurma(null);  // Desassociar a turma
-            matriculaRepository.save(matricula);  // Salvar a alteração
-        }
-
         this.turmaRepository.delete(turma);
         return ResponseEntity.ok("Turma " + id + " Foi deletada..");
     }
